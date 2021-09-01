@@ -7,7 +7,8 @@ There's a Terraform module available to deploy this here: https://github.com/ric
 
 Notes: 
 * currently only sha256 signatures are supported
-* Any POST to the API with a valid signature will trigger the codepipeline, the content of the request body is not used
+* the code checks if the pipeline is running before triggering it again
+* any POST to the API with a valid signature will trigger the codepipeline, the content of the request body is not used
 
 ## Config
 
