@@ -11,6 +11,12 @@ from error_handler import AccessDeniedException
 
 logger = logging.getLogger(__name__)
 
+def to_bytes(input):
+  if isinstance(input, (bytes, bytearray)):
+    return input
+  else:
+    return bytes(input, "utf-8")
+
 def check_hmac(http_header_name, token):
   """
   Decorator for checking hmac signature
@@ -31,10 +37,12 @@ def check_hmac(http_header_name, token):
         if sha_name != "sha256":
           logger.info(f"Expected sha256, but found {sha_name}")
         request_body = request.get_data()
+        request_body_type = type(request_body)
+        logger.info(f"Type of request body {request_body_type}")
         logger.info(f"Request body is {request_body}")
         mac = hmac.new(
           key=bytes(token, "utf-8"),
-          msg=request_body,
+          msg=to_bytes(request_body),
           digestmod=hashlib.sha256
         )
         mac_b64 = base64.b64encode(mac.digest()).decode()
