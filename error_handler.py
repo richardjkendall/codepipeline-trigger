@@ -69,6 +69,6 @@ def error_handler(f):
             return exception_to_json_response(err, 400)
         except SystemFailureException as err:
             return exception_to_json_response(err, 500)
-        except Exception as err:
-            return generic_exception_json_response(500)
+        #except Exception as err:
+        #    return generic_exception_json_response(500)
     return error_decorator
